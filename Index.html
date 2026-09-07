@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday, Yashii! 🎀</title>
+    <style>
+        :root {
+            --primary-pink: #FFB7C5;
+            --dark-pink: #FF6699;
+            --bg-light: #FFF0F5;
+            --accent-gold: #FFD700;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4A4A4A;
+            overflow-x: hidden;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .floating-bg {
+            position: fixed;
+            font-size: 24px;
+            opacity: 0.15;
+            z-index: -1;
+            animation: floatAround 10s infinite linear;
+            pointer-events: none;
+        }
+
+        #lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .lock-container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border: 4px solid var(--primary-pink);
+            border-radius: 24px;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(255, 183, 197, 0.4);
+        }
+
+        .lock-container input {
+            width: 80%;
+            padding: 12px;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-align: center;
+            border: 2px solid var(--primary-pink);
+            border-radius: 12px;
+            outline: none;
+            margin-bottom: 15px;
+            color: var(--dark-pink);
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border: 4px solid var(--primary-pink);
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(255, 183, 197, 0.4);
+            position: relative;
+            margin-top: 10px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .bow-header {
+            font-size: 50px;
+            animation: pulse 2s infinite;
+            display: inline-block;
+        }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 1.8rem;
+            margin: 10px 0 15px 0;
+            text-shadow: 1px 1px 0px #FFE4E1;
+            word-wrap: break-word;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid var(--primary-pink);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .facts-box {
+            text-align: left;
+            background: #FFF9FA;
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px dashed var(--dark-pink);
+            margin: 15px 0;
+        }
+
+        .fact-item {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .fact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .fact-item::before {
+            content: "🌸";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .letter-box {
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.6;
+            background: #FFF9FA;
+            padding: 15px;
+            border-radius: 16px;
+            border: 2px solid var(--primary-pink);
+            height: 320px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin-bottom: 20px;
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            word-break: break-word;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .btn {
+            background-color: var(--dark-pink);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 102, 153, 0.3);
+            width: 100%;
+            margin-top: 10px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: #FFF;
+            color: var(--dark-pink);
+            border: 2px solid var(--primary-pink);
+            box-shadow: none;
+            margin-top: 8px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            animation: fall linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(15px, 20px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-bg" style="top: 8%; left: 6%;">🍎</div>
+    <div class="floating-bg" style="top: 18%; right: 10%; animation-delay: 2s;">🥛</div>
+    <div class="floating-bg" style="top: 75%; left: 5%; animation-delay: 4s;">🎈</div>
+    <div class="floating-bg" style="top: 65%; right: 8%; animation-delay: 1s;">🌸</div>
+
+    <div id="lock-screen">
+        <div class="lock-container">
+            <div style="font-size: 50px; margin-bottom: 10px; animation: pulse 2s infinite;">💝</div>
+            <h2>Enter the Secret Code to Open Yashii's Gift</h2>
+            <input type="password" id="passwordInput" placeholder="••••" maxlength="4" pattern="\d*">
+            <div class="error-msg" id="errorMsg">Oops! Wrong code, try again. 💕</div>
+            <button class="btn" onclick="checkPassword()">Unlock Site 🌸</button>
+        </div>
+    </div>
+
+    <div class="app-container" id="main-content">
+        <div class="bow-header">🎀</div>
+
+        <div id="page1" class="page active">
+            <h1>Happy Birthday, Yashii! 💕</h1>
+            <p style="margin-bottom: 10px; font-weight: 500;">Welcome to your secret birthday space! Scroll down to view your photos below ✨</p>
+            <div class="gallery">
+                <img src="photo1.jpg" alt="Yashii Photo 1">
+                <img src="photo2.jpg" alt="Yashii Photo 2">
+                <img src="photo3.jpg" alt="Yashii Photo 3">
+            </div>
+            <button class="btn" onclick="navigateToPage(2)">Next Surprise Page ➔</button>
+        </div>
+
+        <div id="page2" class="page">
+            <h1>Little Reminders ✨</h1>
+            <div class="facts-box">
+                <div class="fact-item">Today is an incredibly special day because a whole new adult chapter officially begins for you!</div>
+                <div class="fact-item">Your voice, your cuteness, and even your smallest everyday habits are absolutely wonderful.</div>
+                <div class="fact-item">You are genuinely the easiest person to talk to without ever having to think twice or fear judgment.</div>
+                <div class="fact-item">You deserve nothing less than full happiness, smiles, and absolute pampering every single day.</div>
+            </div>
+            <button class="btn" onclick="navigateToPage(3)">Open Your Letter ✉️</button>
+            <button class="btn btn-secondary" onclick="navigateToPage(1)">Back</button>
+        </div>
+
+        <div id="page3" class="page">
+            <h1>For You, Babe 💝</h1>            <div class="letter-box">Heyy babe 😉 I hope this day will be memorable for you 😌🤩, I wish you always be happy in your life and that beautiful smile of yours keeps making my heart fall for you 🫠🫠. Babe your little habits, your voice, your cuteness 😍🫣 uff soo irresistible 😮‍💨🫠, I might sometimes annoy you (I will though 😁😘) but babe seriously you're the best person I have met , the one who listen to me whatever I say and never judge , the person whom I freely talk to without thinking twice, you're the one I feel most loved with 😌👉👈, I wish you always be like this and I wish you never get annoyed of me (my biggest fear fr), I wish I can always be with you in your goods and bads. Babe you plz always be what you are because you are the most beautiful person I have ever seen, you're the most perfect and best person I have met , you deserve all the happiness in this world for eg: me😌😏, I pray you get all the things you want in life , may all the bad things be shuu from your life 🤩. 
+
+I'm just super duper lucky to have a sweet charming gurl like you in my life who idk why hates me (pretends to 😒)but anyways I think also cares for me which means she indirectly loves me 😌🫣. 
+
+Ohh babe today's the very special day for youu 🙀 you have finally became an adult ohh myy godd 🤧 ab aap kuch bhi kr skte ho 🙀🫣 ..., koi na mai hu na apko jyada udam nhi krne dunga 😤😼
+
+But babyyyyyyyyyy today's your happy wala birthday 🥳🥳 
+I wish youu a happiest birthday 🥳🥳🤩
+I wish to Lord give you some kisses and huggies from me(me only 😼) 😌😘
+
+Babe! HAPPY BIRTHDAY 🥳😘
+I love you 💝😚</div>
+
+            <button class="btn" onclick="makeConfetti()">Tap for Infinite Sparkles! 🌟</button>
+            <button class="btn btn-secondary" onclick="navigateToPage(2)">Back to Start</button>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value.trim();
+            const error = document.getElementById('errorMsg');
+            const lockScreen = document.getElementById('lock-screen');
+            const mainContent = document.getElementById('main-content');
+
+            if (input === '0909') {
+                lockScreen.style.opacity = '0';
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    makeConfetti(); 
+                }, 500);
+            } else {
+                error.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        document.getElementById('passwordInput').addEventListener('input', function(e) {
+            if (this.value.length === 4) {
+                checkPassword();
+            }
+        });
+
+        function navigateToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page' + pageNum).classList.add('active');
+            
+            if(pageNum === 3) {
+                makeConfetti();
+            }
+        }
+
+        function makeConfetti() {
+            const colors = ['#FFB7C5', '#FF6699', '#FFD700', '#FFFFFF'];
+            for (let i = 0; i < 40; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                confetti.style.opacity = Math.random();
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0px';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3500);
+            }
+        }
+    </script>
+</body>
+</html>
+
